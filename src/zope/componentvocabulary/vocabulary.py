@@ -16,7 +16,8 @@
 This vocabulary provides terms for all utilities providing a given interface.
 """
 __docformat__ = "reStructuredText"
-
+import base64
+import six
 import zope.component
 from zope.component.interface import interfaceToName
 from zope.component.interfaces import IUtilityRegistration
@@ -99,7 +100,7 @@ class UtilityVocabulary(object):
 
     >>> vocab = UtilityVocabulary(None, interface=IObject)
     >>> import pprint
-    >>> pprint.pprint(vocab._terms.items())
+    >>> pprint.pprint(sorted(vocab._terms.items()))
     [(u'object1', <UtilityTerm object1, instance of Object>),
      (u'object2', <UtilityTerm object2, instance of Object>),
      (u'object3', <UtilityTerm object3, instance of Object>)]
@@ -161,11 +162,11 @@ class UtilityVocabulary(object):
         factory='zope.app.utility.vocabulary.UtilityVocabulary'
         interface='zope.app.utility.vocabulary.IObject' />
 
-    >>> component.provideUtility(IObject, IInterface, 
+    >>> component.provideUtility(IObject, IInterface,
     ...                      'zope.app.utility.vocabulary.IObject')
     >>> vocab = UtilityVocabulary(
     ...     None, interface='zope.app.utility.vocabulary.IObject')
-    >>> pprint.pprint(vocab._terms.items())
+    >>> pprint.pprint(sorted(vocab._terms.items()))
     [(u'object1', <UtilityTerm object1, instance of Object>),
      (u'object2', <UtilityTerm object2, instance of Object>),
      (u'object3', <UtilityTerm object3, instance of Object>)]
@@ -191,7 +192,7 @@ class UtilityVocabulary(object):
             # set as class-level attributes in custom subclasses now.
             self.nameOnly = bool(kw.get('nameOnly', False))
             interface = kw.get('interface', Interface)
-            if isinstance(interface, (str, unicode)):
+            if isinstance(interface, six.string_types):
                 interface = zope.component.getUtility(IInterface, interface)
             self.interface = interface
 
@@ -222,8 +223,7 @@ class UtilityVocabulary(object):
     def __iter__(self):
         """See zope.schema.interfaces.IIterableVocabulary"""
         # Sort the terms by the token (utility name)
-        values = self._terms.values()
-        values.sort(lambda x, y: cmp(x.token, y.token))
+        values = sorted(self._terms.values(), key=lambda x: x.token)
         return iter(values)
 
     def __len__(self):
@@ -298,8 +298,8 @@ class UtilityNameTerm:
     u'\xc0\xdf\xc7'
     >>> t1.title
     u'abc'
-    >>> repr(t2.title)
-    "u'\\xc0\\xdf\\xc7'"
+    >>> t2.title == u'\xC0\xDF\xC7'
+    True
     >>> ITitledTokenizedTerm.providedBy(t1)
     True
 
@@ -322,7 +322,7 @@ class UtilityNameTerm:
     """
 
     def __init__(self, value):
-        self.value = unicode(value)
+        self.value = value.decode() if isinstance(value, bytes) else value
 
     @property
     def token(self):
@@ -330,7 +330,7 @@ class UtilityNameTerm:
         # printable ascii. We'll use base64 generated from the UTF-8
         # representation.  (The default encoding rules should not be
         # allowed to apply.)
-        return "t" + self.value.encode('utf-8').encode('base64')[:-1]
+        return "t" + base64.b64encode(self.value.encode('utf-8')).decode()
 
     @property
     def title(self):
@@ -411,7 +411,7 @@ class UtilityNames:
 
     def getTermByToken(self, token):
         for name, ut in zope.component.getUtilitiesFor(self.interface):
-            name = unicode(name)
+            name = name.decode() if isinstance(name, bytes) else name
             if token == "t":
                 if not name:
                     break

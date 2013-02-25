@@ -15,7 +15,18 @@
 """
 __docformat__ = "reStructuredText"
 import doctest
+import re
+from zope.testing import renormalizing
+
+checker = renormalizing.RENormalizing([
+    # Python 3 unicode removed the "u".
+    (re.compile("u('.*?')"),
+     r"\1"),
+    (re.compile('u(".*?")'),
+     r"\1"),
+    ])
 
 
 def test_suite():
-    return doctest.DocTestSuite('zope.componentvocabulary.vocabulary')
+    return doctest.DocTestSuite(
+        'zope.componentvocabulary.vocabulary', checker=checker)
