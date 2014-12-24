@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-2.0.0 (unreleased)
+2.0.0 (2014-12-24)
 ------------------
 
 - Added support for PyPy.  (PyPy3 is pending release of a fix for:
@@ -33,9 +33,9 @@ CHANGES
 1.0.1 (2010-09-25)
 ------------------
 
-- Add not declared but needed dependency on ``zope.component``.
+- Add undeclared but needed dependency on ``zope.component``.
 
-- Add test extra to declare test dependency on ``zope.component [test]``.
+- Add test extra to declare test dependency on ``zope.component[test]``.
 
 
 1.0 (2009-05-19)
