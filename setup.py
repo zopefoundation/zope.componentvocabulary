@@ -40,9 +40,9 @@ setup(name='zope.componentvocabulary',
       author_email='zope-dev@zope.org',
       description='Component vocabularies',
       long_description=(
-          read('README.txt')
+          read('README.rst')
           + '\n\n' +
-          read('CHANGES.txt')
+          read('CHANGES.rst')
           ),
       keywords="zope component architecture vocabulary",
       classifiers=[
