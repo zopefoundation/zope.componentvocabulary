@@ -5,6 +5,9 @@ CHANGES
 2.0.0 (unreleased)
 ------------------
 
+- Added support for PyPy.  (PyPy3 is pending release of a fix for:
+  https://bitbucket.org/pypy/pypy/issue/1946)
+
 - Add support for Python 3.4.
 
 - Add support for testing on Travis.
