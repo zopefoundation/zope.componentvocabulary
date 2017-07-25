@@ -17,10 +17,10 @@ import os
 from setuptools import setup, find_packages
 
 def read(*rnames):
-    return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
+    with open(os.path.join(os.path.dirname(__file__), *rnames)) as f:
+        return f.read()
 
 def alltests():
-    import os
     import sys
     import unittest
     # use the zope.testrunner machinery to find all the
@@ -34,6 +34,12 @@ def alltests():
     suites = list(zope.testrunner.find.find_suites(options))
     return unittest.TestSuite(suites)
 
+TEST_REQUIRES = [
+    'zope.configuration',
+    'zope.testing',
+    'zope.testrunner',
+]
+
 setup(name='zope.componentvocabulary',
       version='2.1.0.dev0',
       author='Zope Foundation and Contributors',
@@ -43,7 +49,7 @@ setup(name='zope.componentvocabulary',
           read('README.rst')
           + '\n\n' +
           read('CHANGES.rst')
-          ),
+      ),
       keywords="zope component architecture vocabulary",
       classifiers=[
           'Development Status :: 5 - Production/Stable',
@@ -54,16 +60,17 @@ setup(name='zope.componentvocabulary',
           'Programming Language :: Python :: 2',
           'Programming Language :: Python :: 2.7',
           'Programming Language :: Python :: 3',
-          'Programming Language :: Python :: 3.3',
           'Programming Language :: Python :: 3.4',
           'Programming Language :: Python :: 3.5',
+          'Programming Language :: Python :: 3.6',
           'Programming Language :: Python :: Implementation :: CPython',
           'Programming Language :: Python :: Implementation :: PyPy',
           'Natural Language :: English',
           'Operating System :: OS Independent',
           'Topic :: Internet :: WWW/HTTP',
-          'Framework :: Zope3'],
-      url='http://pypi.python.org/pypi/zope.componentvocabulary',
+          'Framework :: Zope3',
+      ],
+      url='http://github.com/zopefoundation/zope.componentvocabulary',
       license='ZPL 2.1',
       packages=find_packages('src'),
       package_dir={'': 'src'},
@@ -76,19 +83,12 @@ setup(name='zope.componentvocabulary',
           'zope.interface',
           'zope.schema',
           'zope.security',
-          ],
-      extras_require=dict(
-          test=[
-              'zope.component',
-              'zope.configuration',
-              'zope.testing',
-              ]),
-      tests_require = [
-          'zope.configuration',
-          'zope.testing',
-          'zope.testrunner',
-          ],
-      test_suite = '__main__.alltests',
+      ],
+      extras_require={
+          'test': TEST_REQUIRES,
+      },
+      tests_require=TEST_REQUIRES,
+      test_suite='__main__.alltests',
       include_package_data=True,
       zip_safe=False,
-      )
+)
