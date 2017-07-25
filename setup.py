@@ -41,7 +41,7 @@ TEST_REQUIRES = [
 ]
 
 setup(name='zope.componentvocabulary',
-      version='2.1.0',
+      version='2.1.1.dev0',
       author='Zope Foundation and Contributors',
       author_email='zope-dev@zope.org',
       description='Component vocabularies',
