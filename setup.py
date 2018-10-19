@@ -20,20 +20,6 @@ def read(*rnames):
     with open(os.path.join(os.path.dirname(__file__), *rnames)) as f:
         return f.read()
 
-def alltests():
-    import sys
-    import unittest
-    # use the zope.testrunner machinery to find all the
-    # test suites we've put under ourselves
-    import zope.testrunner.find
-    import zope.testrunner.options
-    here = os.path.abspath(os.path.join(os.path.dirname(__file__), 'src'))
-    args = sys.argv[:]
-    defaults = ["--test-path", here]
-    options = zope.testrunner.options.get_options(args, defaults)
-    suites = list(zope.testrunner.find.find_suites(options))
-    return unittest.TestSuite(suites)
-
 TEST_REQUIRES = [
     'zope.configuration',
     'zope.testing',
@@ -89,7 +75,6 @@ setup(name='zope.componentvocabulary',
           'test': TEST_REQUIRES,
       },
       tests_require=TEST_REQUIRES,
-      test_suite='__main__.alltests',
       include_package_data=True,
       zip_safe=False,
 )

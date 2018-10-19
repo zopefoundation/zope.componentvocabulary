@@ -20,9 +20,9 @@ import base64
 import six
 import zope.component
 from zope.component.interface import interfaceToName
-from zope.component.interfaces import IUtilityRegistration
 from zope.interface import implementer, provider, Interface, providedBy
 from zope.interface.interfaces import IInterface
+from zope.interface.interfaces import IUtilityRegistration
 from zope.security.proxy import removeSecurityProxy
 from zope.schema.interfaces import IVocabularyTokenized
 from zope.schema.interfaces import ITokenizedTerm, ITitledTokenizedTerm
@@ -287,7 +287,7 @@ class UtilityComponentInterfacesVocabulary(ObjectInterfacesVocabulary):
 
 
 @implementer(ITitledTokenizedTerm)
-class UtilityNameTerm:
+class UtilityNameTerm(object):
     r"""Simple term that provides a utility name as a value.
 
     >>> t1 = UtilityNameTerm('abc')
@@ -338,7 +338,7 @@ class UtilityNameTerm:
 
 
 @implementer(IVocabularyTokenized)
-class UtilityNames:
+class UtilityNames(object):
     """Vocabulary with utility names for a single interface as values.
 
     >>> class IMyUtility(Interface):
@@ -380,6 +380,15 @@ class UtilityNames:
     >>> u'three' in vocab
     True
 
+    If the term is not found, a ValueError is raised from ``getTerm``
+
+    >>> u'four' in vocab
+    False
+    >>> vocab.getTerm(u'four')
+    Traceback (most recent call last):
+    ...
+    ValueError: four
+
     >>> component.provideUtility(MyUtility(), IMyUtility)
     >>> u'' in vocab
     True
@@ -393,6 +402,14 @@ class UtilityNames:
     >>> term3a = vocab.getTermByToken('tb25l')
     >>> term3.value
     u'one'
+
+    If we ask ``getTermByToken`` to find a missing token, a
+    ``LookupError`` is raised:
+
+    >>> vocab.getTermByToken(u'no such term')
+    Traceback (most recent call last):
+    ...
+    LookupError: no matching token: 'no such term'
 
     >>> ps.tearDown()
     """

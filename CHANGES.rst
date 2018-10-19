@@ -1,14 +1,16 @@
-Changes
-=======
+=========
+ Changes
+=========
 
 2.1.1 (unreleased)
-------------------
+==================
 
 - Add support for Python 3.7.
 
+- Drop support for ``setup.py test``.
 
 2.1.0 (2017-07-25)
-------------------
+==================
 
 - Add support for Python 3.5 and 3.6.
 
@@ -16,7 +18,7 @@ Changes
 
 
 2.0.0 (2014-12-24)
-------------------
+==================
 
 - Added support for PyPy.  (PyPy3 is pending release of a fix for:
   https://bitbucket.org/pypy/pypy/issue/1946)
@@ -27,7 +29,7 @@ Changes
 
 
 2.0.0a1 (2013-02-25)
---------------------
+====================
 
 - Add support for Python 3.3.
 
@@ -44,7 +46,7 @@ Changes
 
 
 1.0.1 (2010-09-25)
-------------------
+==================
 
 - Add undeclared but needed dependency on ``zope.component``.
 
@@ -52,7 +54,7 @@ Changes
 
 
 1.0 (2009-05-19)
-----------------
+================
 
 * Initial public release, derived from zope.app.component and
   zope.app.interface to replace them.
