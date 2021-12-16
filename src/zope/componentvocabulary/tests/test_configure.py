@@ -25,7 +25,7 @@ class ZCMLTest(unittest.TestCase):
         # We get a more clear exception than if we catch
         # what it raises and do self.fail(ex)
         zope.configuration.xmlconfig.XMLConfig(
-                'configure.zcml', zope.componentvocabulary)()
+            'configure.zcml', zope.componentvocabulary)()
 
     def test_configure_should_register_n_utilities(self):
         gsm = zope.component.getGlobalSiteManager()

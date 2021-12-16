@@ -53,7 +53,7 @@ class UtilityTerm(object):
 
     >>> term
     <UtilityTerm zope.schema.interfaces.IVocabulary, instance of InterfaceClass>
-    """
+    """  # noqa: E501 line too long
 
     def __init__(self, value, token):
         """Create a term for value and token."""
@@ -61,7 +61,7 @@ class UtilityTerm(object):
         self.token = token
 
     def __repr__(self):
-        return '<UtilityTerm %s, instance of %s>' %(
+        return '<UtilityTerm %s, instance of %s>' % (
             self.token, self.value.__class__.__name__)
 
 
@@ -413,7 +413,6 @@ class UtilityNames(object):
 
     >>> ps.tearDown()
     """
-
 
     def __init__(self, interface):
         self.interface = interface
