@@ -24,7 +24,8 @@ from zope.testing import renormalizing
 class TestUtilityComponentInterfacesVocabulary(unittest.TestCase):
 
     def _getTargetClass(self):
-        from zope.componentvocabulary.vocabulary import UtilityComponentInterfacesVocabulary
+        from zope.componentvocabulary.vocabulary import (
+            UtilityComponentInterfacesVocabulary)
         return UtilityComponentInterfacesVocabulary
 
     def _makeOne(self, context):
@@ -53,12 +54,11 @@ class TestUtilityComponentInterfacesVocabulary(unittest.TestCase):
         class Component(object):
             "A component"
 
-
         reg = Reg(Component())
 
         vocab = self._makeOne(reg)
-        self.assertIsNotNone(
-            vocab.getTermByToken('zope.componentvocabulary.tests.test_vocabulary.IComponent'))
+        self.assertIsNotNone(vocab.getTermByToken(
+            'zope.componentvocabulary.tests.test_vocabulary.IComponent'))
 
 
 checker = renormalizing.RENormalizing([
@@ -67,7 +67,7 @@ checker = renormalizing.RENormalizing([
      r"\1"),
     (re.compile('u(".*?")'),
      r"\1"),
-    ])
+])
 
 
 def test_suite():
