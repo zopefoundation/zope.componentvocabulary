@@ -24,8 +24,8 @@ from zope.testing import renormalizing
 class TestUtilityComponentInterfacesVocabulary(unittest.TestCase):
 
     def _getTargetClass(self):
-        from zope.componentvocabulary.vocabulary import (
-            UtilityComponentInterfacesVocabulary)
+        from zope.componentvocabulary.vocabulary import \
+            UtilityComponentInterfacesVocabulary
         return UtilityComponentInterfacesVocabulary
 
     def _makeOne(self, context):

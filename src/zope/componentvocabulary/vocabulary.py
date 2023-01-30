@@ -17,19 +17,25 @@ This vocabulary provides terms for all utilities providing a given interface.
 """
 __docformat__ = "reStructuredText"
 import base64
+
 import six
+
 import zope.component
 from zope.component.interface import interfaceToName
-from zope.interface import implementer, provider, Interface, providedBy
+from zope.componentvocabulary.i18n import ZopeMessageFactory as _
+from zope.interface import Interface
+from zope.interface import implementer
+from zope.interface import providedBy
+from zope.interface import provider
 from zope.interface.interfaces import IInterface
 from zope.interface.interfaces import IUtilityRegistration
-from zope.security.proxy import removeSecurityProxy
-from zope.schema.interfaces import IVocabularyTokenized
-from zope.schema.interfaces import ITokenizedTerm, ITitledTokenizedTerm
+from zope.schema.interfaces import ITitledTokenizedTerm
+from zope.schema.interfaces import ITokenizedTerm
 from zope.schema.interfaces import IVocabularyFactory
-from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
-
-from zope.componentvocabulary.i18n import ZopeMessageFactory as _
+from zope.schema.interfaces import IVocabularyTokenized
+from zope.schema.vocabulary import SimpleTerm
+from zope.schema.vocabulary import SimpleVocabulary
+from zope.security.proxy import removeSecurityProxy
 
 
 @implementer(ITokenizedTerm)

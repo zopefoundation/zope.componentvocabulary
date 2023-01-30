@@ -13,6 +13,7 @@
 ##############################################################################
 
 import unittest
+
 import zope.component
 import zope.componentvocabulary
 import zope.configuration.xmlconfig
