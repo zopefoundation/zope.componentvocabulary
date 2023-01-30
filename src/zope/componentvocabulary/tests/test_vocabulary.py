@@ -15,17 +15,14 @@
 """
 __docformat__ = "reStructuredText"
 import doctest
-import re
 import unittest
-
-from zope.testing import renormalizing
 
 
 class TestUtilityComponentInterfacesVocabulary(unittest.TestCase):
 
     def _getTargetClass(self):
-        from zope.componentvocabulary.vocabulary import (
-            UtilityComponentInterfacesVocabulary)
+        from zope.componentvocabulary.vocabulary import \
+            UtilityComponentInterfacesVocabulary
         return UtilityComponentInterfacesVocabulary
 
     def _makeOne(self, context):
@@ -43,7 +40,7 @@ class TestUtilityComponentInterfacesVocabulary(unittest.TestCase):
         from zope.interface.interfaces import IUtilityRegistration
 
         @implementer(IUtilityRegistration)
-        class Reg(object):
+        class Reg:
             def __init__(self, component):
                 self.component = component
 
@@ -51,7 +48,7 @@ class TestUtilityComponentInterfacesVocabulary(unittest.TestCase):
             "A component interface"
 
         @implementer(IComponent)
-        class Component(object):
+        class Component:
             "A component"
 
         reg = Reg(Component())
@@ -61,19 +58,9 @@ class TestUtilityComponentInterfacesVocabulary(unittest.TestCase):
             'zope.componentvocabulary.tests.test_vocabulary.IComponent'))
 
 
-checker = renormalizing.RENormalizing([
-    # Python 3 unicode removed the "u".
-    (re.compile("u('.*?')"),
-     r"\1"),
-    (re.compile('u(".*?")'),
-     r"\1"),
-])
-
-
 def test_suite():
     suite = unittest.defaultTestLoader.loadTestsFromName(__name__)
     suite.addTest(
-        doctest.DocTestSuite(
-            'zope.componentvocabulary.vocabulary', checker=checker)
+        doctest.DocTestSuite('zope.componentvocabulary.vocabulary')
     )
     return suite

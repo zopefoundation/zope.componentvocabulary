@@ -14,7 +14,9 @@
 """Setup for zope.app.catalog package
 """
 import os
-from setuptools import setup, find_packages
+
+from setuptools import find_packages
+from setuptools import setup
 
 
 def read(*rnames):
@@ -29,7 +31,7 @@ TEST_REQUIRES = [
 ]
 
 setup(name='zope.componentvocabulary',
-      version='2.3.1.dev0',
+      version='3.0.dev0',
       author='Zope Foundation and Contributors',
       author_email='zope-dev@zope.org',
       description='Component vocabularies',
@@ -45,15 +47,12 @@ setup(name='zope.componentvocabulary',
           'Intended Audience :: Developers',
           'License :: OSI Approved :: Zope Public License',
           'Programming Language :: Python',
-          'Programming Language :: Python :: 2',
-          'Programming Language :: Python :: 2.7',
           'Programming Language :: Python :: 3',
-          'Programming Language :: Python :: 3.5',
-          'Programming Language :: Python :: 3.6',
           'Programming Language :: Python :: 3.7',
           'Programming Language :: Python :: 3.8',
           'Programming Language :: Python :: 3.9',
           'Programming Language :: Python :: 3.10',
+          'Programming Language :: Python :: 3.11',
           'Programming Language :: Python :: Implementation :: CPython',
           'Programming Language :: Python :: Implementation :: PyPy',
           'Natural Language :: English',
@@ -66,9 +65,9 @@ setup(name='zope.componentvocabulary',
       packages=find_packages('src'),
       package_dir={'': 'src'},
       namespace_packages=['zope'],
+      python_requires='>=3.7',
       install_requires=[
           'setuptools',
-          'six',
           'zope.component',
           'zope.i18nmessageid',
           'zope.interface',

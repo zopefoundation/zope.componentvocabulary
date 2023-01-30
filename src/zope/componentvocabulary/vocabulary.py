@@ -17,23 +17,28 @@ This vocabulary provides terms for all utilities providing a given interface.
 """
 __docformat__ = "reStructuredText"
 import base64
-import six
+
 import zope.component
 from zope.component.interface import interfaceToName
-from zope.interface import implementer, provider, Interface, providedBy
+from zope.interface import Interface
+from zope.interface import implementer
+from zope.interface import providedBy
+from zope.interface import provider
 from zope.interface.interfaces import IInterface
 from zope.interface.interfaces import IUtilityRegistration
-from zope.security.proxy import removeSecurityProxy
-from zope.schema.interfaces import IVocabularyTokenized
-from zope.schema.interfaces import ITokenizedTerm, ITitledTokenizedTerm
+from zope.schema.interfaces import ITitledTokenizedTerm
+from zope.schema.interfaces import ITokenizedTerm
 from zope.schema.interfaces import IVocabularyFactory
-from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
+from zope.schema.interfaces import IVocabularyTokenized
+from zope.schema.vocabulary import SimpleTerm
+from zope.schema.vocabulary import SimpleVocabulary
+from zope.security.proxy import removeSecurityProxy
 
 from zope.componentvocabulary.i18n import ZopeMessageFactory as _
 
 
 @implementer(ITokenizedTerm)
-class UtilityTerm(object):
+class UtilityTerm:
     """A term representing a utility.
 
     The token of the term is the name of the utility. Here is a brief example
@@ -61,13 +66,13 @@ class UtilityTerm(object):
         self.token = token
 
     def __repr__(self):
-        return '<UtilityTerm %s, instance of %s>' % (
+        return '<UtilityTerm {}, instance of {}>'.format(
             self.token, self.value.__class__.__name__)
 
 
 @implementer(IVocabularyTokenized)
 @provider(IVocabularyFactory)
-class UtilityVocabulary(object):
+class UtilityVocabulary:
     """Vocabulary that provides utilities of a specified interface.
 
     Here is a short example of how the vocabulary should work.
@@ -101,9 +106,9 @@ class UtilityVocabulary(object):
     >>> vocab = UtilityVocabulary(None, interface=IObject)
     >>> import pprint
     >>> pprint.pprint(sorted(vocab._terms.items()))
-    [(u'object1', <UtilityTerm object1, instance of Object>),
-     (u'object2', <UtilityTerm object2, instance of Object>),
-     (u'object3', <UtilityTerm object3, instance of Object>)]
+    [('object1', <UtilityTerm object1, instance of Object>),
+     ('object2', <UtilityTerm object2, instance of Object>),
+     ('object3', <UtilityTerm object3, instance of Object>)]
 
     Now let's see how the other methods behave in this context. First we can
     just use the 'in' opreator to test whether a value is available.
@@ -121,7 +126,7 @@ class UtilityVocabulary(object):
     >>> names = [term.token for term in terms]
     >>> names.sort()
     >>> names
-    [u'object1', u'object2', u'object3']
+    ['object1', 'object2', 'object3']
 
     Determining the amount of utilities available via the vocabulary is also
     possible.
@@ -167,9 +172,9 @@ class UtilityVocabulary(object):
     >>> vocab = UtilityVocabulary(
     ...     None, interface='zope.app.utility.vocabulary.IObject')
     >>> pprint.pprint(sorted(vocab._terms.items()))
-    [(u'object1', <UtilityTerm object1, instance of Object>),
-     (u'object2', <UtilityTerm object2, instance of Object>),
-     (u'object3', <UtilityTerm object3, instance of Object>)]
+    [('object1', <UtilityTerm object1, instance of Object>),
+     ('object2', <UtilityTerm object2, instance of Object>),
+     ('object3', <UtilityTerm object3, instance of Object>)]
 
     Sometimes it is desirable to only select the name of a utility. For
     this purpose a `nameOnly` argument was added to the constructor, in which
@@ -178,7 +183,7 @@ class UtilityVocabulary(object):
 
     >>> vocab = UtilityVocabulary(None, interface=IObject, nameOnly=True)
     >>> pprint.pprint([term.value for term in vocab])
-    [u'object1', u'object2', u'object3']
+    ['object1', 'object2', 'object3']
     """
 
     # override these in subclasses
@@ -192,14 +197,14 @@ class UtilityVocabulary(object):
             # set as class-level attributes in custom subclasses now.
             self.nameOnly = bool(kw.get('nameOnly', False))
             interface = kw.get('interface', Interface)
-            if isinstance(interface, six.string_types):
+            if isinstance(interface, str):
                 interface = zope.component.getUtility(IInterface, interface)
             self.interface = interface
 
         utils = zope.component.getUtilitiesFor(self.interface, context)
-        self._terms = dict(
-            (name, UtilityTerm(self.nameOnly and name or util, name))
-            for name, util in utils)
+        self._terms = {
+            name: UtilityTerm(self.nameOnly and name or util, name)
+            for name, util in utils}
 
     def __contains__(self, value):
         """See zope.schema.interfaces.IBaseVocabulary"""
@@ -273,7 +278,7 @@ class ObjectInterfacesVocabulary(SimpleVocabulary):
         interfaces = providedBy(component).flattened()
         terms = [SimpleTerm(interface, interfaceToName(context, interface))
                  for interface in interfaces]
-        super(ObjectInterfacesVocabulary, self).__init__(terms)
+        super().__init__(terms)
 
 
 @provider(IVocabularyFactory)
@@ -282,23 +287,23 @@ class UtilityComponentInterfacesVocabulary(ObjectInterfacesVocabulary):
     def __init__(self, context):
         if IUtilityRegistration.providedBy(context):
             context = context.component
-        super(UtilityComponentInterfacesVocabulary, self).__init__(
+        super().__init__(
             context)
 
 
 @implementer(ITitledTokenizedTerm)
-class UtilityNameTerm(object):
+class UtilityNameTerm:
     r"""Simple term that provides a utility name as a value.
 
     >>> t1 = UtilityNameTerm('abc')
-    >>> t2 = UtilityNameTerm(u'\xC0\xDF\xC7')
+    >>> t2 = UtilityNameTerm('\xC0\xDF\xC7')
     >>> t1.value
-    u'abc'
+    'abc'
     >>> t2.value
-    u'\xc0\xdf\xc7'
+    '\xc0\xdf\xc7'
     >>> t1.title
-    u'abc'
-    >>> t2.title == u'\xC0\xDF\xC7'
+    'abc'
+    >>> t2.title == '\xC0\xDF\xC7'
     True
     >>> ITitledTokenizedTerm.providedBy(t1)
     True
@@ -315,9 +320,9 @@ class UtilityNameTerm(object):
     The unnamed utility is given an artificial title for use in user
     interfaces:
 
-    >>> t3 = UtilityNameTerm(u'')
+    >>> t3 = UtilityNameTerm('')
     >>> t3.title
-    u'(unnamed utility)'
+    '(unnamed utility)'
 
     """
 
@@ -338,7 +343,7 @@ class UtilityNameTerm(object):
 
 
 @implementer(IVocabularyTokenized)
-class UtilityNames(object):
+class UtilityNames:
     """Vocabulary with utility names for a single interface as values.
 
     >>> class IMyUtility(Interface):
@@ -370,43 +375,43 @@ class UtilityNames(object):
     >>> L = [t.value for t in unames]
     >>> L.sort()
     >>> L
-    [u'one', u'two']
+    ['one', 'two']
 
-    >>> u'one' in vocab
+    >>> 'one' in vocab
     True
-    >>> u'three' in vocab
+    >>> 'three' in vocab
     False
     >>> component.provideUtility(MyUtility(), IMyUtility, 'three')
-    >>> u'three' in vocab
+    >>> 'three' in vocab
     True
 
     If the term is not found, a ValueError is raised from ``getTerm``
 
-    >>> u'four' in vocab
+    >>> 'four' in vocab
     False
-    >>> vocab.getTerm(u'four')
+    >>> vocab.getTerm('four')
     Traceback (most recent call last):
     ...
     ValueError: four
 
     >>> component.provideUtility(MyUtility(), IMyUtility)
-    >>> u'' in vocab
+    >>> '' in vocab
     True
-    >>> term1 = vocab.getTerm(u'')
+    >>> term1 = vocab.getTerm('')
     >>> term2 = vocab.getTermByToken(term1.token)
     >>> term2.value
-    u''
-    >>> term3 = vocab.getTerm(u'one')
+    ''
+    >>> term3 = vocab.getTerm('one')
     >>> term3.token
     'tb25l'
     >>> term3a = vocab.getTermByToken('tb25l')
     >>> term3.value
-    u'one'
+    'one'
 
     If we ask ``getTermByToken`` to find a missing token, a
     ``LookupError`` is raised:
 
-    >>> vocab.getTermByToken(u'no such term')
+    >>> vocab.getTermByToken('no such term')
     Traceback (most recent call last):
     ...
     LookupError: no matching token: 'no such term'

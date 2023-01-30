@@ -1,6 +1,14 @@
 ``zope.componentvocabulary``
 ============================
 
+.. image:: https://img.shields.io/pypi/v/zope.componentvocabulary.svg
+        :target: https://pypi.python.org/pypi/zope.componentvocabulary/
+        :alt: Latest release
+
+.. image:: https://img.shields.io/pypi/pyversions/zope.componentvocabulary.svg
+        :target: https://pypi.org/project/zope.componentvocabulary/
+        :alt: Supported Python versions
+
 .. image:: https://github.com/zopefoundation/zope.componentvocabulary/actions/workflows/tests.yml/badge.svg
         :target: https://github.com/zopefoundation/zope.componentvocabulary/actions/workflows/tests.yml
 

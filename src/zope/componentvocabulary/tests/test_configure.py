@@ -13,9 +13,11 @@
 ##############################################################################
 
 import unittest
+
 import zope.component
-import zope.componentvocabulary
 import zope.configuration.xmlconfig
+
+import zope.componentvocabulary
 
 
 class ZCMLTest(unittest.TestCase):
