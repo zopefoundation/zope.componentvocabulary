@@ -29,7 +29,7 @@ TEST_REQUIRES = [
 ]
 
 setup(name='zope.componentvocabulary',
-      version='2.3.1.dev0',
+      version='3.0.dev0',
       author='Zope Foundation and Contributors',
       author_email='zope-dev@zope.org',
       description='Component vocabularies',
