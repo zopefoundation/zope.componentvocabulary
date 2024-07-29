@@ -77,7 +77,6 @@ setup(name='zope.componentvocabulary',
       extras_require={
           'test': TEST_REQUIRES,
       },
-      tests_require=TEST_REQUIRES,
       include_package_data=True,
       zip_safe=False,
       )
