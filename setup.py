@@ -11,7 +11,7 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-"""Setup for zope.app.catalog package
+"""Setup for zope.componentvocabulary package
 """
 import os
 
