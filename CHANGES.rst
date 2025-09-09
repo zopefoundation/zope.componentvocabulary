@@ -2,16 +2,18 @@
  Changes
 =========
 
-3.0 (unreleased)
+3.1 (unreleased)
 ================
 
-- Add support for Python 3.12, 3.13.
+- Nothing changed yet.
 
-- Drop support for Python 3.7, 3.8.
 
-- Add support for Python 3.11.
+3.0 (2025-02-14)
+================
 
-- Drop support for Python 2.7, 3.5, 3.6.
+- Add support for Python 3.11, 3.12, 3.13.
+
+- Drop support for Python 2.7, 3.5, 3.6, 3.7, 3.8.
 
 
 2.3.0 (2021-12-17)
