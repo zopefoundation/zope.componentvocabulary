@@ -15,7 +15,6 @@
 """
 import os
 
-from setuptools import find_packages
 from setuptools import setup
 
 
@@ -27,7 +26,7 @@ def read(*rnames):
 TEST_REQUIRES = [
     'zope.configuration',
     'zope.testing',
-    'zope.testrunner',
+    'zope.testrunner >= 6.4',
 ]
 
 setup(name='zope.componentvocabulary',
@@ -62,9 +61,6 @@ setup(name='zope.componentvocabulary',
       ],
       url='http://github.com/zopefoundation/zope.componentvocabulary',
       license='ZPL-2.1',
-      packages=find_packages('src'),
-      package_dir={'': 'src'},
-      namespace_packages=['zope'],
       python_requires='>=3.9',
       install_requires=[
           'setuptools',
